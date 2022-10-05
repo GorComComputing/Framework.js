@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<button onclick="replaceNode()">Replace</button>
+	<button onclick="replaceNode2()">Replace Back</button>
+	<div id="app" />
+	<script src="vdom.js"></script>
+	<script>
+		const node = h('div',{class: 'container'},[
+			h('h1',{title: 'this is a title'},'Basics of JS Framework'),	
+			h('p',{title: 'description'},'Here we learn, what is behind of every modern JS Framework')
+		]);
+		
+		const newNode = h('div',{class: 'container'},[
+			h('h1',{title: 'this is a title'},'Basics of JS Framework - updated'),	
+			h('div',{title: 'description'},[
+				h('img', {
+				src: 'http://www.brokenthorn.com/Resources/images/P3chiplarg.jpg',
+				style: 'width:300px;'
+				}, []),
+				h('p',{}, 'replaced node content'),
+				h('input', {}, [])
+			])
+		]);
+		
+		mount(node, document.getElementById('app'));
+		
+		function replaceNode(){
+			patch(node, newNode);
+		}
+		
+		function replaceNode2(){
+			patch(newNode, node);
+		}
+	</script>
+</body>
+</html>
