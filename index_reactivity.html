@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app" />
+	<script src="reactivity.js"></script>
+	<script>
+		// Создадим реактивное состояние
+		const state = reactive({
+		randomNumber: -1,
+		name: 'GC'
+		});
+		
+		// Создаем зависимость 1
+		watchEffect(()=>{
+			console.log(`current is ${state.randomNumber}`);
+		});
+		
+		// Создаем зависимость 2
+		watchEffect(()=>{
+			console.log(`2 current is ${state.randomNumber}`);
+		});
+		
+		// Изменяем по таймеру реактивное свойство раз в секунду
+		setInterval(()=>{
+			state.randomNumber = Math.random();
+		}, 1000);
+	</script>
+</body>
+</html>

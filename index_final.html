@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app" />
+	<script src="vdom.js"></script>
+	<script src="reactivity.js"></script>
+	<script>
+		// Создаем реактивное состояние
+		const state = reactive({
+			inputValue: ''
+		});
+
+	
+		// Возвращает vnode со всеми зависимостями и параметрами
+		function render(text){
+			return h('div',{class: 'container'},[
+				h('h1',{title: 'this is a title'},'Basics of JS Framework - updated'),	
+				h('div',{title: 'description'},[
+					h('img', {
+					src: text,
+					style: 'width:300px;'
+					}, []),
+					h('p',{}, text),
+					h('input', {oninput: 'state.inputValue = this.value'}, [])
+				])
+			]);
+		}
+		
+		
+		//
+		let currentNode;
+		watchEffect(()=>{
+			if(!currentNode){
+				// При первом разе рендерится и монтируется
+				currentNode = render(state.inputValue);
+				mount(currentNode, document.getElementById('app'));
+			}
+			else{
+				// При других разах вносит изменения 
+				const newNode = render(state.inputValue);
+				patch(currentNode, newNode);
+				currentNode = newNode;
+			}
+		});
+	</script>
+</body>
+</html>
